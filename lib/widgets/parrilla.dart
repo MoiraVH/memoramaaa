@@ -14,7 +14,8 @@ class Parrilla extends StatefulWidget {
 }
 
 class _ParrillaState extends State<Parrilla> {
-  int? clicked=0, preclicked =-1;
+
+  int? clicked=0, prevclicked =-1, countClicks;
   bool? flag =false;
 
   @override
@@ -32,30 +33,30 @@ class _ParrillaState extends State<Parrilla> {
       shrinkWrap: true,
       gridDelegate:
       SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-      itemBuilder: (context, index) => FlipCard(
+      itemBuilder: (context, index) => FlipCard( //return
           onFlip: () {
             if (!flag!) {
-              preclicked = index;
+              prevclicked = index;
               clicked = -1;
               flag = true;
             }else {
               clicked = index;
               flag = false;
             }
-            if ( preclicked != clicked){
+            if ( prevclicked != clicked){
               //voltear las cartas
             }
-            if (cartas.elementAt(clicked!)==cartas.elementAt(preclicked!)) {
+            if (cartas.elementAt(clicked!)==cartas.elementAt(prevclicked!)) {
               debugPrint("Clicked: son iguales");
             }else {
               Future.delayed(Duration(seconds: 1), () {
                 controllers.elementAt(clicked! ).toggleCard();
-                controllers.elementAt(preclicked! ).toggleCard();
+                controllers.elementAt(prevclicked! ).toggleCard();
 
               },);
 
             }
-            debugPrint("Clicked:  $preclicked");
+            debugPrint("Clicked:  $prevclicked");
             debugPrint("Clicked:  $clicked");
           },
           direction: FlipDirection.HORIZONTAL,
